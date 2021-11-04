@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+service Ai {
+  rpc ask(AskRequest) returns (AskReply) {}
+  rpc add_command(AddCommandRequest) returns (SuccessResponse) {}
+}
+
+message AskRequest {
+  string question  = 1;
+}
+
+message AskReply {
+  string reply = 1;
+}
+
+message SuccessResponse {
+  bool success = 1;
+}
+
+message AddCommandRequest {
+  string pattern = 1;
+  string template = 2;
+}
+
+
+message AddCommandResponse{
+    bool success = 1;
+}
+
+//# grpc 生成代码指令
+//# python3 -m grpc_tools.protoc ./service.proto -I . --python_out=. --grpc_python_out=./

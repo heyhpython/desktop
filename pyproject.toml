@@ -1,0 +1,39 @@
+[tool.poetry]
+name = "A DIY Desktop app"
+version = "0.1.0"
+description = "orient to search"
+authors = ["yuhao.he <hawl.yuhao.he@gmail.com>"]
+license = "MIT License"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+fastapi-admin = "^1.0.3"
+aiomysql = "^0.0.21"
+aerich = "^0.5.8"
+blinker = "^1.4"
+PyJWT = "1.7.1"
+grpcio = "^1.41.1"
+requests = "^2.26.0"
+mqtt-io = "^2.2.6"
+supervisor = "^4.2.2"
+gpio = "^0.3.0"
+grpcio-tools = "^1.41.1"
+
+[tool.poetry.dev-dependencies]
+ipython = "^7.28.0"
+pytest = "==6.2.5"
+pytest-cov = "*"
+pytest-watch = "*"
+pylint = "*"
+pytest-flake8 = "==1.0.7"
+setuptools = '*'
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+
+#[tool.poetry.scripts]
+#lint = "flake8"
+#test = "pytest --cov=template --cov-report html --cov-report term"

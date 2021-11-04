@@ -1,0 +1,5 @@
+DB_CONNECTIONS =  {
+        "default": "mysql://root:@localhost/agent?charset=utf8mb4"
+    }
+
+REDIS_URL = "redis://localhost"
