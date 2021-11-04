@@ -17,8 +17,7 @@ class ToManyDisplay(displays.Display):
     template = "widgets/displays/json.html"
 
     async def render(self, request: Request, many: List[Model]):
-        if many:
-            many = [repr(sub) for sub in many]
+        many = [repr(sub) for sub in many]
         return await super(ToManyDisplay, self).render(request, json.dumps(many, ensure_ascii=False))
 
 

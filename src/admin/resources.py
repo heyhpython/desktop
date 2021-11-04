@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 upload = FileUpload(uploads_dir=__upload__)
 
 
-class AdminResource(Resource):
+class UserResource(Resource):
     label = "用户"
     model = User
     icon = "fas fa-admin"
@@ -53,4 +53,25 @@ class AdminResource(Resource):
     ]
 
 
-app.register(AdminResource)
+class RoleResource(Resource):
+    label = "角色"
+    model = Role
+    icon = "fas fa-admin"
+    page_pre_title = "后台"
+    page_title = "角色管理"
+    filters = [
+        filters.Search(
+            name="name", label="角色名", search_mode="contains", placeholder="搜索角色名"
+        ),
+        filters.Date(name="created_at", label="入网时间"),
+    ]
+    fields = [
+        "id",
+        Field(name="name", label="角色名"),
+        ToManyField('users', label='角色', display=ToManyDisplay(), input_=ManyToManyInput(User)),
+        Field(name="created_at", label="入网时间", display=displays.DatetimeDisplay(), input_=inputs.DisplayOnly()),
+    ]
+
+
+app.register(UserResource)
+app.register(RoleResource)

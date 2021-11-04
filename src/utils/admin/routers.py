@@ -48,18 +48,14 @@ async def list_view(
         page_size = model_resource.page_size
     qs = qs.offset((page_num - 1) * page_size)
     tm_fields = model_resource.get_2m_fields()
-    logger.error(tm_fields)
     qs = qs.prefetch_related(*tm_fields)
     values = await qs.values()
-    logger.error(values)
     for value, obj in zip(values, await qs.all()):
         for field in tm_fields:
             value[field] = getattr(obj, field)
-    logger.error(len(fields))
     rendered_values, row_attributes, column_attributes, cell_attributes = await render_values(
         request, model_resource, fields, values
     )
-    logger.info(rendered_values)
     context = {
         "request": request,
         "resources": resources,

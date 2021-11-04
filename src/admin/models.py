@@ -25,6 +25,12 @@ class User(AbstractAdmin):
     avatar = fields.TextField(description='头像地址', null=True)
     email = fields.CharField(max_length=128, index=True, description="邮箱", null=True)
 
+    def __repr__(self):
+        return self.username
+
+    def __str__(self):
+        return self.username
+
 
 class Role(models.Model):
     name = fields.CharField(max_length=32, index=True, unique=True, description="角色名")
