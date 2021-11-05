@@ -6,12 +6,11 @@
 @time: 2021/10/27 14:49
 """
 
-from fastapi_admin.app import app
 from fastapi_admin.resources import Field
 from fastapi_admin.widgets import displays, filters, inputs
 
 from . import Device, Command
-from src.utils.admin import Resource, ToManyDisplay, ToManyField, ForeignKeyDisplay
+from src.utils.admin import Resource, ToManyDisplay, ForeignKeyDisplay, app
 
 
 class DeviceResource(Resource):
@@ -32,7 +31,7 @@ class DeviceResource(Resource):
         Field(name="name", label="名称"),
         Field(name="location", label="位置"),
         Field(name="pin", label="PIN脚"),
-        ToManyField('commands', label='命令', display=ToManyDisplay(), input_=inputs.DisplayOnly()),
+        Field('commands', label='命令', display=ToManyDisplay(), input_=inputs.DisplayOnly()),
         Field(name="created_at", label="入网时间", display=displays.DatetimeDisplay(), input_=inputs.DisplayOnly()),
     ]
 
@@ -57,6 +56,6 @@ class CommandResource(Resource):
         Field(name="device", label="所属设备", display=ForeignKeyDisplay(), input_=inputs.ForeignKey(Device)),
     ]
 
-
-app.register(DeviceResource)
-app.register(CommandResource)
+#
+# app.register(DeviceResource)
+# app.register(CommandResource)

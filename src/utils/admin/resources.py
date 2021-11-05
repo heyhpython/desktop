@@ -18,6 +18,8 @@ logger = logging.getLogger(__name__)
 
 
 class Resource(BaseResource):
+    order: float = 1.0
+
     @classmethod
     async def get_inputs(cls, request: Request, obj: Optional[Model] = None):
         ret = []
@@ -93,7 +95,4 @@ class Resource(BaseResource):
         return ret, m2m_ret
 
 
-class ToManyField(Field):
-    pass
-
-
+__all__ = ['Resource']

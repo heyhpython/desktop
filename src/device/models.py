@@ -6,22 +6,17 @@
 @time: 2021/11/2 21:02
 """
 
-from tortoise import Model, fields
-from src.utils.admin.models import ManyToOneModel
+from tortoise import fields
+from src.utils.admin import ManyToOneModel, AbstractModel, AdminMixin, AdminMeta
 
 
-class AbstractModel(Model):
-    class Meta:
-        abstract = True
-        # fetch_fields = ('commands', )
-        # fk_fields = ()
+class Command(AbstractModel, ManyToOneModel, AdminMixin):
+    class Admin(AdminMeta):
+        label = "命令"
+        fields = {"command": "命令", "pattern": "出发方式", "device": "所属设备"}
+        order = 2.1
+        icon = "fas fa-terminal"
 
-    id = fields.IntField(pk=True, description="主键")
-    created_at = fields.DatetimeField(auto_now_add=True, index=True, description='创建时间')
-    updated_at = fields.DatetimeField(auto_now=True, index=True, description='更新时间')
-
-
-class Command(AbstractModel, ManyToOneModel):
     command = fields.CharField(max_length=32, description="命令 注册到ai中心 即AI answer 接口的输出")
     pattern = fields.CharField(max_length=128, description="用于唤醒命令，即AI answer 接口的输入")
     device = fields.ForeignKeyField("models.Device", related_name="commands", db_constraint=False)
@@ -47,7 +42,13 @@ class Command(AbstractModel, ManyToOneModel):
         return obj
 
 
-class Device(AbstractModel):
+class Device(AbstractModel, AdminMixin):
+    class Admin(AdminMeta):
+        label = "设备"
+        fields = {"name": "设备名", "location": "位置", "pin": "PIN脚", "commands": "命令"}
+        icon = "fas fa-terminal"
+        order = 2.0
+
     name = fields.CharField(max_length=32, description="设备名称")
     location = fields.CharField(max_length=32, description="设备位置")
     pin = fields.CharField(max_length=16, description="设备gpio pin脚号")

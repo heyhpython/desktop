@@ -5,19 +5,17 @@
 @file: __init__.py.py
 @time: 2021/11/3 19:27
 """
-from fastapi_admin.app import FastAPIAdmin, middlewares, BaseHTTPMiddleware
+from .app import app
 from .routers import router as api_router
-from .displays import ToManyDisplay, ForeignKeyDisplay
-from .inputs import ManyToManyInput
-from .resources import Resource, ToManyField
-
-
-app = FastAPIAdmin(
-    title="FastAdmin",
-    description="A fast admin dashboard based on fastapi and tortoise-orm with tabler ui.",
-)
-app.add_middleware(BaseHTTPMiddleware, dispatch=middlewares.language_processor)
+from . import displays, resources, models
+from .displays import Json, ToManyDisplay, ForeignKeyDisplay
+from .resources import Resource
+from .models import ManyToOneModel, AbstractModel, AdminMixin, AdminMeta
 
 app.include_router(api_router)
 
-__all__ = ['app', 'FastAPIAdmin', 'ToManyDisplay', 'ForeignKeyDisplay', 'ManyToManyInput', 'Resource', 'ToManyField']
+__all__ = ['app'] + \
+          displays.__all__ + \
+          resources.__all__ + \
+          models.__all__
+

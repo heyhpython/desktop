@@ -17,6 +17,7 @@ from starlette.staticfiles import StaticFiles
 from starlette.responses import RedirectResponse, JSONResponse
 from starlette.requests import Request
 from tortoise.contrib.fastapi import register_tortoise
+from tortoise import Tortoise
 from fastapi_admin.exceptions import (
     forbidden_error_exception,
     not_found_error_exception,
@@ -37,7 +38,7 @@ from src.constants import __config__, __template__, __static__
 from src.signals import configured, after_boot
 from src.errors import BaseResponseError
 from src import clients
-from src.utils.admin import app as admin_app
+from src.utils.admin import app as admin_app, AdminMixin
 
 logging.basicConfig(
     level=logging.INFO,
@@ -114,6 +115,18 @@ async def init_admin():
     )
 
 
+@app.on_event('startup')
+async def register_resource():
+    if not Tortoise._inited:
+        await Tortoise.init(TORTOISE_ORM)
+    for models in Tortoise.apps.values():
+        for model in models.values():
+            if issubclass(model, AdminMixin):
+                r = model.admin_get_resource()
+                admin_app.register(r)
+    admin_app.resources.sort(key=lambda r:  getattr(r, 'order', 10))
+
+
 app.mount("/admin", admin_app)
 admin_app.add_exception_handler(HTTP_500_INTERNAL_SERVER_ERROR, server_error_exception)
 admin_app.add_exception_handler(HTTP_404_NOT_FOUND, not_found_error_exception)
@@ -121,7 +134,6 @@ admin_app.add_exception_handler(HTTP_403_FORBIDDEN, forbidden_error_exception)
 admin_app.add_exception_handler(HTTP_401_UNAUTHORIZED, unauthorized_error_exception)
 configured.send(config)
 after_boot.send(app)
-
 
 if __name__ == '__main__':
     uvicorn.run(app, port=10000)

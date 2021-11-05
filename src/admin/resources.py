@@ -7,14 +7,13 @@
 """
 import logging
 
-from fastapi_admin.app import app
 from fastapi_admin.file_upload import FileUpload
 from fastapi_admin.resources import Field
 from fastapi_admin.widgets import displays, filters, inputs
 
 from .models import User, Role
 from src.constants import __upload__
-from src.utils.admin import Resource, ToManyField, ManyToManyInput, ToManyDisplay
+from src.utils.admin import Resource, ToManyDisplay, app
 
 logger = logging.getLogger(__name__)
 upload = FileUpload(uploads_dir=__upload__)
@@ -48,8 +47,8 @@ class UserResource(Resource):
             display=displays.Image(width="40"),
             input_=inputs.Image(null=True, upload=upload),
         ),
-        Field(name="created_at", label="入网时间", display=displays.DatetimeDisplay()),
-        ToManyField('roles', label='角色', display=ToManyDisplay(), input_=ManyToManyInput(Role)),
+        Field(name="created_at", label="入网时间", display=displays.DatetimeDisplay(), input_=inputs.DisplayOnly()),
+        Field('roles', label='角色', display=ToManyDisplay(), input_=inputs.ManyToMany(Role)),
     ]
 
 
@@ -68,10 +67,10 @@ class RoleResource(Resource):
     fields = [
         "id",
         Field(name="name", label="角色名"),
-        ToManyField('users', label='角色', display=ToManyDisplay(), input_=ManyToManyInput(User)),
+        Field('users', label='角色', display=ToManyDisplay(), input_=inputs.ManyToMany(User)),
         Field(name="created_at", label="入网时间", display=displays.DatetimeDisplay(), input_=inputs.DisplayOnly()),
     ]
 
 
-app.register(UserResource)
-app.register(RoleResource)
+# app.register(UserResource)
+# app.register(RoleResource)

@@ -27,3 +27,13 @@ class ForeignKeyDisplay(displays.Display):
             value = ""
         if not self.template:
             return repr(value)
+
+
+class Json(displays.Display):
+    template = "widgets/displays/json.html"
+
+    async def render(self, request: Request, value: dict):
+        return await super(Json, self).render(request, json.dumps(value, ensure_ascii=False))
+
+
+__all__ = ['Json', 'ToManyDisplay', 'ForeignKeyDisplay']
