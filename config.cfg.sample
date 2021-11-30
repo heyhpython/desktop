@@ -3,3 +3,17 @@ DB_CONNECTIONS =  {
     }
 
 REDIS_URL = "redis://localhost"
+
+WEB = {
+    "TURING": {
+        "ENDPOINT": "http://openapi.turingapi.com/openapi/api/v2",
+        "APIKEY": "",
+        "SECRET": ""
+      }
+}
+
+GRPC_CLIENT = {
+    "AI":{
+          "ENDPOINT":"localhost:50051"
+              }
+}

@@ -130,4 +130,5 @@ dmypy.json
 *.cfg
 
 .idea
-config.cfg.sample
+config.cfg
+/src/static/uploads/

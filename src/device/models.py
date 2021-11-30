@@ -7,6 +7,7 @@
 """
 
 from tortoise import fields
+from tortoise import signals
 from src.utils.admin import ManyToOneModel, AbstractModel, AdminMixin, AdminMeta
 
 
@@ -58,3 +59,9 @@ class Device(AbstractModel, AdminMixin):
 
     def __repr__(self):
         return str(self)
+
+
+# @signals.post_save(Command)
+# async def after_del(obj, **kwargs):
+#     print("after save command ", obj, kwargs)
+#     raise Exception()

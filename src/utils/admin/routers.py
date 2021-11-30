@@ -222,6 +222,8 @@ async def create(
     inputs = await model_resource.get_inputs(request)
     form = await request.form()
     data, m2m_data = await model_resource.resolve_data(request, form)
+    print(data)
+    print(m2m_data)
     async with in_transaction() as conn:
         obj = await model.create(**data, using_db=conn)
         for k, items in m2m_data.items():

@@ -31,13 +31,13 @@ from starlette.status import (
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
 from src import admin
-from src import device
+from src import device  # noqa
 import src.dialogue as _  # noqa
 from src.config import Config
 from src.constants import __config__, __template__, __static__
 from src.signals import configured, after_boot
 from src.errors import BaseResponseError
-from src import clients
+from src import clients # noqa
 from src.utils.admin import app as admin_app, AdminMixin
 
 logging.basicConfig(

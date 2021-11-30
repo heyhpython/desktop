@@ -6,13 +6,12 @@
 @time: 2021/11/3 22:33
 """
 import abc
-import dataclasses
-from typing import Optional, List, Union, Callable, Any, Tuple, Dict, Type
+from typing import Optional, List, Dict, Type, Set
 import datetime
 
 import tortoise
 from fastapi_admin import resources
-from fastapi_admin.widgets import inputs, displays, filters
+from fastapi_admin.widgets import inputs, displays
 from pydantic import BaseModel
 
 from .displays import ToManyDisplay, ForeignKeyDisplay
@@ -138,6 +137,16 @@ class AbstractModel(tortoise.Model):
     id = tortoise.fields.IntField(pk=True, description="主键")
     created_at = tortoise.fields.DatetimeField(auto_now_add=True, index=True, description='创建时间')
     updated_at = tortoise.fields.DatetimeField(auto_now=True, index=True, description='更新时间')
+
+    def _set_kwargs(self, kwargs: dict) -> Set[str]:
+        meta = self._meta
+        to_update = {}
+        for key, value in kwargs.items():
+            if key in meta.fk_fields | meta.o2o_fields and value and not getattr(value, '_saved_in_db', None):
+                kwargs[key] = None
+                to_update[f'{key}_id'] = value
+        kwargs.update(to_update)
+        return super(AbstractModel, self)._set_kwargs(kwargs)
 
 
 __all__ = ['AbstractModel', 'AdminMixin', 'ManyToOneModel', "AdminMeta"]

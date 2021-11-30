@@ -35,6 +35,6 @@ build-backend = "poetry.core.masonry.api"
 
 
 #[tool.poetry.scripts]
-#   lint = "flake8 citi tests --show-source --benchmark"
+#   lint = "flake8 src tests --show-source --benchmark"
 #   test = "pytest --cov=src --cov-report html --cov-report term"
 #   poetry run uvicorn src.app:app --host 0.0.0.0 --port 10000 --reload
