@@ -39,8 +39,9 @@ class Resource(BaseResource):
     @classmethod
     def get_fields(cls, is_display: bool = True):
         ret = []
-        pk_column = cls.model._meta.db_pk_column
-        for field in cls.fields or cls.model._meta.fields:
+        _meta = cls.model._meta
+        pk_column = _meta.db_pk_column
+        for field in cls.fields or _meta.fields:
             if isinstance(field, str):
                 if field == pk_column:
                     continue
@@ -55,8 +56,8 @@ class Resource(BaseResource):
                 ):
                     continue
             if (
-                    field.name in cls.model._meta.fetch_fields
-                    and field.name not in cls.model._meta.fk_fields | cls.model._meta.m2m_fields | cls.model._meta.backward_fk_fields
+                    field.name in _meta.fetch_fields
+                    and field.name not in _meta.fk_fields | _meta.m2m_fields | _meta.backward_fk_fields
             ):
                 continue
             ret.append(field)

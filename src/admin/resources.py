@@ -13,7 +13,7 @@ from fastapi_admin.widgets import displays, filters, inputs
 
 from .models import User, Role
 from src.constants import __upload__
-from src.utils.admin import Resource, ToManyDisplay, app
+from src.utils.admin import Resource, ToManyDisplay
 
 logger = logging.getLogger(__name__)
 upload = FileUpload(uploads_dir=__upload__)
@@ -70,7 +70,3 @@ class RoleResource(Resource):
         Field('users', label='角色', display=ToManyDisplay(), input_=inputs.ManyToMany(User)),
         Field(name="created_at", label="入网时间", display=displays.DatetimeDisplay(), input_=inputs.DisplayOnly()),
     ]
-
-
-# app.register(UserResource)
-# app.register(RoleResource)

@@ -7,7 +7,7 @@
 """
 from . import resources  # noqa
 from . import api
-from .models import User, Role
+from .models import User, Role   # noqa
 from src.signals import after_boot
 
 

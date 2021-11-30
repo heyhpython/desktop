@@ -18,7 +18,7 @@ class AiClient(BaseClient):
         return "AI"
 
     def __init__(self):
-        self.stub:  service_pb2_grpc.AiStub = None
+        self.stub: service_pb2_grpc.AiStub = None
 
     def ask(self, q) -> str:
         resp: service_pb2.AskReply = self.stub.ask(service_pb2.AskRequest(question=q))

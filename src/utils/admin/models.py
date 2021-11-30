@@ -22,7 +22,7 @@ from .app import app
 class ManyToOneModel:
     @abc.abstractmethod
     def render(self):
-        raise NotImplemented
+        raise NotImplementedError
 
 
 def get_display(f: tortoise.fields.Field):

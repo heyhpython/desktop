@@ -6,11 +6,10 @@
 @time: 2021/10/29 11:39
 """
 import logging
-from abc import abstractmethod, ABC
 import time
+from abc import abstractmethod, ABC
 
 import requests
-
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +19,7 @@ class Session(requests.Session):
     def request(self, method: str, url, *args, **kwargs):
         s = time.time()
         resp = super(Session, self).request(method, url, *args, **kwargs)
-        d = int((time.time()-s) * 1000)
+        d = int((time.time() - s) * 1000)
         logger.info(f"{method} {url} args:{args} kwargs:{kwargs} status:{resp.status_code} "
                     f"response:{resp.json()} cost: {d} ms")
         return resp

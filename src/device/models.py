@@ -7,7 +7,6 @@
 """
 
 from tortoise import fields
-from tortoise import signals
 from src.utils.admin import ManyToOneModel, AbstractModel, AdminMixin, AdminMeta
 
 

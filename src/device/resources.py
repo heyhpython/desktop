@@ -10,7 +10,7 @@ from fastapi_admin.resources import Field
 from fastapi_admin.widgets import displays, filters, inputs
 
 from . import Device, Command
-from src.utils.admin import Resource, ToManyDisplay, ForeignKeyDisplay, app
+from src.utils.admin import Resource, ToManyDisplay, ForeignKeyDisplay
 
 
 class DeviceResource(Resource):

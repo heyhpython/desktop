@@ -11,33 +11,34 @@ import time
 
 import aioredis
 import uvicorn
-from fastapi_admin.providers.login import UsernamePasswordProvider
 from fastapi import FastAPI
-from starlette.staticfiles import StaticFiles
-from starlette.responses import RedirectResponse, JSONResponse
-from starlette.requests import Request
-from tortoise.contrib.fastapi import register_tortoise
-from tortoise import Tortoise
 from fastapi_admin.exceptions import (
     forbidden_error_exception,
     not_found_error_exception,
     server_error_exception,
     unauthorized_error_exception,
 )
+from fastapi_admin.providers.login import UsernamePasswordProvider
+from starlette.requests import Request
+from starlette.responses import RedirectResponse, JSONResponse
+from starlette.staticfiles import StaticFiles
 from starlette.status import (
     HTTP_401_UNAUTHORIZED,
     HTTP_403_FORBIDDEN,
     HTTP_404_NOT_FOUND,
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
-from src import admin
-from src import device  # noqa
+from tortoise import Tortoise
+from tortoise.contrib.fastapi import register_tortoise
+
 import src.dialogue as _  # noqa
+from src import admin
+from src import clients  # noqa
+from src import device  # noqa
 from src.config import Config
 from src.constants import __config__, __template__, __static__
-from src.signals import configured, after_boot
 from src.errors import BaseResponseError
-from src import clients # noqa
+from src.signals import configured, after_boot
 from src.utils.admin import app as admin_app, AdminMixin
 
 logging.basicConfig(
@@ -124,7 +125,7 @@ async def register_resource():
             if issubclass(model, AdminMixin):
                 r = model.admin_get_resource()
                 admin_app.register(r)
-    admin_app.resources.sort(key=lambda r:  getattr(r, 'order', 10))
+    admin_app.resources.sort(key=lambda r: getattr(r, 'order', 10))
 
 
 app.mount("/admin", admin_app)
