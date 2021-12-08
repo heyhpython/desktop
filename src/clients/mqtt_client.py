@@ -26,7 +26,7 @@ class InfoMqttMixin(mqtt.Client):
     def init(self, config):
         self.config = config['MQTT']
         self.host = self.config['BROKER_HOST']
-        self.port = self.config.get('BROKER_PORT', 1833)
+        self.port = self.config.get('BROKER_PORT', 1883)
 
     @property
     def host(self):
