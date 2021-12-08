@@ -1,0 +1,25 @@
+mqtt:
+  host: localhost
+  topic_prefix: desktop
+
+# Sensors
+sensor_modules:
+  - name: dht11_sensor
+    module: dht22
+    type: dht11
+    pin: 17
+
+sensor_inputs:
+  # dht11 temperature
+  - name: temperature
+    module: dht11_sensor
+    interval: 1
+    retain: false
+    type: temperature
+
+  # dht11 humidity
+  - name: humidity
+    module: dht11_sensor
+    interval: 1
+    retain: false
+    type: humidity
